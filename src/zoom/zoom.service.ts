@@ -13,13 +13,6 @@ export interface MeetingDetails {
     duration: number;
 }
 
-export interface Participant {
-    id: string;
-    user_name: string;
-    user_email: string;
-}
-
-
 @Injectable()
 export class ZoomService {
 
@@ -28,9 +21,9 @@ export class ZoomService {
     private readonly clientId = 'SmP9tgHmQpeC0YZ_dIngUQ';
     private readonly clientSecret = 'mZb9Eef3p4KnXthx8su7msgcu9WgCR3I';
     private readonly accountId = 'MCvjXa0xSSqNPBVkcReyrg';
+    private readonly baseUrl = 'https://api.zoom.us/v2/report/meetings';
     public meetingDetails: MeetingDetails;
     public meetingId: string;
-    public token: string;
 
 
     constructor(private readonly httpService: HttpService) { }
@@ -100,25 +93,4 @@ export class ZoomService {
         const accesToken = await this.getAccessToken();
         return this.getMeetingDetails(this.meetingId, accesToken);
     }
-
-    async getMeetingParticipants(meetingId: string, accesToken: string): Promise<Participant[]> {
-        try {
-            const response = await firstValueFrom(
-                this.httpService.get(`${this.zoomApiUrl}/meetings/${meetingId}/participants`, {
-                    headers: {
-                        Authorization: `Bearer ${accesToken}`,
-                    },
-                }),
-            );
-
-            return response.data.participants ? response.data.participants.map((participante: any) => ({
-                id: participante.id,
-                user_name: participante.user_name,
-                user_email: participante.user_email,
-            })): [];
-        } catch (error) {
-            throw new HttpException('No se puedo obtener la lista de participantes', HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
 }
