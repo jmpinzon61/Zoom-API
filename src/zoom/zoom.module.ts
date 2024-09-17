@@ -8,4 +8,5 @@ import { HttpModule } from '@nestjs/axios';
   providers: [ZoomService],
   controllers: [ZoomController],
 })
+
 export class ZoomModule {}

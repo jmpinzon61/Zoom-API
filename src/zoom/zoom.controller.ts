@@ -1,4 +1,4 @@
-import { Controller, HttpException, Post, Get, Body, Param, HttpStatus, Query } from '@nestjs/common';
+import { Controller, HttpException, Post, Get, Body, Param, HttpStatus} from '@nestjs/common';
 import { MeetingDetails, ZoomService } from './zoom.service';
 
 
